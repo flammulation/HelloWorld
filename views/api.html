@@ -3,7 +3,7 @@
 <head>
 <title>Hello World!</title>
 <meta name="author" content="Anthony Whetherhult">
-<meta name="Description" content="Testing a node.js app with routing via express.">
+<meta name="Description" content="Test to run AJAX to connect with an external API.">
 
 <link rel="stylesheet" type="text/css" href="/css/index.css">
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
@@ -11,13 +11,17 @@
 <body>
 
 <div class="row no-gutters">
- <%- include('partials/menu.html', {page:'index'}) %>
+ <%- include('partials/menu.html', {page:'api'}) %>
 </div>
 <div class="col-12">
-  <h1>Hello From Node.js, Tico!</h1>
+  <h1>Push the button for API results!</h1>
+  <p><button id="run">Run</button></p>
+  <p id="result"></p>
 </div>
 <%- include('partials/footer.html') %>
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/api.js"></script>
 </body>
 </html>

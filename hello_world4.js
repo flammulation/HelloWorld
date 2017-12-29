@@ -16,6 +16,9 @@ router.get('/', function (req, res) {
 router.get('/ejs', function (req, res) {  
   res.render('ejs.html', { title: 'Hello World! ~rendered by ejs' });
 });
+router.get('/api', function (req, res) {  
+  res.render('api.html');
+});
 
 app.use(router);
 app.listen(port, ip, function () {
