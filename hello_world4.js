@@ -1,34 +1,25 @@
 var express = require('express');
 var app = express();
+var path = require('path');
+const port = 80;
+const ip = '0.0.0.0';
 
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, '/views'));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
+app.use(express.static(__dirname + '/public'));
 
-var path = require('path');
 var router = express.Router();
-
-router.all('/', function (req, res, next) {  
-  console.log('Someone made a request!');
-  next();
-});
 router.get('/', function (req, res) {  
   res.render('index.html');
 });
-
-router.get('/example/:text', function(req, res) {
-    res.render('example.html');
-});
-
-app.use(function(req, res, next) {  
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+router.get('/ejs', function (req, res) {  
+  res.render('ejs.html', { title: 'Hello World! ~rendered by ejs' });
 });
 
 app.use(router);
-app.listen(80, function () {
-  console.log('Ready');
+app.listen(port, ip, function () {
+  console.log(`server is running on ${ip}:${port}`);
 });
 module.exports = app;
 
