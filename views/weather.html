@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Hello World!</title>
+<meta name="author" content="Anthony Whetherhult">
+<meta name="Description" content="Test to connect with an internal API and get the local weather.">
+
+<link rel="stylesheet" type="text/css" href="/css/index.css">
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="row no-gutters">
+ <%- include('partials/menu.html', {page:'weather'}) %>
+</div>
+<div class="col-12">
+  <h1>Your local weather!</h1>
+  <p>
+    <form class="form-inline" onsubmit="event.preventDefault(); return calcWeather();"">
+      <div class="form-row align-items-center">
+        <div class="col-auto">
+          <label for="zip" class="sr-only">Zip Code:</label>
+	  <input type="number" class="form-control mb-2" id="zip" placeholder="<% if ( !!zip_code ) { %><% } else { %>Zip Code<% } %>">
+        </div>
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary mb-2">Get Weather!</button>
+      </div>
+    </form>
+  </p>
+  <p id="result"></p>
+    <script type="text/javascript">
+      function calcWeather() {
+        var url = '/api/weather/' + $("#zip").val();
+        $.ajax({
+          url: url,
+          method: 'GET'
+        }).then(function(data) {
+          var str = JSON.stringify(data)
+          $('#result').html(
+            str.replace(/\n/g, '<br/>')
+             .replace(/\\n/g, ' ')
+             .replace(/\t/g, '&nbsp;&nbsp;')
+          );
+        });
+        return false;
+      }
+    </script>
+</div>
+<%- include('partials/footer.html') %>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"></script>
+</body>
+</html>
+
