@@ -28,20 +28,45 @@
       </div>
     </form>
   </p>
-  <p id="result"></p>
+  <div id="result" style="display:none">
+    <div class="col-xs-12">
+      <h3>Forecast for <span id="zip_code"></span>:</h3>
+    </div>
+    <div class="col-xs-12" id="forecast">
+      <div class="col-md-6 col-sm-6 col-xs-12">
+
+      </div>
+    </div>
+  </div>
     <script type="text/javascript">
       function calcWeather() {
-        var url = '/api/weather/' + $("#zip").val();
+        var url = '/api/weather/zip/' + $("#zip").val();
         $.ajax({
           url: url,
           method: 'GET'
         }).then(function(data) {
-          var str = JSON.stringify(data)
-          $('#result').html(
-            str.replace(/\n/g, '<br/>')
-             .replace(/\\n/g, ' ')
-             .replace(/\t/g, '&nbsp;&nbsp;')
-          );
+          var weather;
+          try {
+            weather = JSON.parse(data);
+          } catch (error) {
+            weather = {error:"The weather was not found for your zip code."};
+          }
+          if (weather.error) {
+            $('#result').html(weather.error);
+          } else {
+            var forecast = {};
+            var len = (weather.list.length <= 5 ? weather.list.length : 5);
+            for (var i = 0; i < len; i++) { 
+              var day = weather.list[i];
+              forecast[i] = {
+                min : day.main.temp_min,
+                max : day.main.temp_max,
+                clouds : day.weather[0].description
+              };
+            }
+            $('#forecast').html(JSON.stringify(forecast));
+            $("#result").show();
+          }
         });
         return false;
       }
